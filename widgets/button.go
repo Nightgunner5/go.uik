@@ -156,9 +156,7 @@ func (b *Button) handleEvents() {
 		case c := <-b.AddClicker:
 			b.Clickers[c] = true
 		case c := <-b.RemoveClicker:
-			if b.Clickers[c] {
-				delete(b.Clickers, c)
-			}
+			delete(b.Clickers, c)
 		case bsh := <-b.BlockSizeHints:
 			sh := bsh.SizeHint
 			sh.PreferredSize.X += 10

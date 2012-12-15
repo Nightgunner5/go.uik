@@ -26,6 +26,8 @@ import (
 	"time"
 )
 
+type KeyListener chan uik.KeyTypedEvent
+
 type Entry struct {
 	uik.Block
 	textBuffer   *image.RGBA
@@ -40,6 +42,10 @@ type Entry struct {
 	fontSize     float64
 	getText      chan []rune
 	setText      chan []rune
+
+	keyListeners      map[KeyListener]bool
+	AddKeyListener    chan KeyListener
+	RemoveKeyListener chan KeyListener
 }
 
 func NewEntry(size geom.Coord, defaultText string) (e *Entry) {
@@ -54,6 +60,10 @@ func NewEntry(size geom.Coord, defaultText string) (e *Entry) {
 	e.cursor = len(e.text)
 
 	e.getText, e.setText = make(chan []rune), make(chan []rune)
+
+	e.keyListeners = make(map[KeyListener]bool)
+	e.AddKeyListener = make(chan KeyListener)
+	e.RemoveKeyListener = make(chan KeyListener)
 
 	e.render()
 
@@ -224,6 +234,12 @@ func (e *Entry) handleEvents() {
 				}
 			case uik.KeyTypedEvent:
 				// uik.Report("key", ev.Code, ev.Letter)
+				for l := range e.keyListeners {
+					select {
+					case l <- ev:
+					default:
+					}
+				}
 				if ev.Glyph != "" {
 					start, end := e.cursor, e.cursor
 					if e.selecting {
@@ -234,7 +250,7 @@ func (e *Entry) handleEvents() {
 					}
 					head := e.text[:start]
 					tail := e.text[end:]
-					e.text = make([]rune, len(head)+len(tail)+1)[:0]
+					e.text = make([]rune, 0, len(head)+len(tail)+1)
 					e.text = append(e.text, head...)
 					e.text = append(e.text, []rune(ev.Glyph)[0])
 					e.text = append(e.text, tail...)
@@ -306,6 +322,10 @@ func (e *Entry) handleEvents() {
 				e.cursor = len(text)
 			}
 		case e.getText <- e.text:
+		case l := <-e.AddKeyListener:
+			e.keyListeners[l] = true
+		case l := <-e.RemoveKeyListener:
+			delete(e.keyListeners, l)
 		}
 	}
 }
