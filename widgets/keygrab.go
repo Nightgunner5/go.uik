@@ -18,8 +18,8 @@ package widgets
 
 import (
 	"code.google.com/p/draw2d/draw2d"
-	"github.com/skelterjohn/geom"
 	"github.com/Nightgunner5/go.uik"
+	"github.com/skelterjohn/geom"
 	"image"
 	"image/color"
 )
