@@ -25,7 +25,7 @@ import (
 
 func BenchmarkEntryDraw(b *testing.B) {
 	b.StopTimer()
-	entry := NewEntry(geom.Coord{})
+	entry := NewEntry(geom.Coord{100, 100}, "hello world")
 	ctx := draw2d.NewGraphicContext(image.NewRGBA(image.Rect(0, 0, 100, 100)))
 	b.StartTimer()
 

@@ -25,7 +25,7 @@ import (
 
 func BenchmarkCheckboxDraw(b *testing.B) {
 	b.StopTimer()
-	checkbox := NewCheckbox(geom.Coord{})
+	checkbox := NewCheckbox(geom.Coord{100, 100})
 	ctx := draw2d.NewGraphicContext(image.NewRGBA(image.Rect(0, 0, 100, 100)))
 	b.StartTimer()
 

@@ -26,7 +26,7 @@ import (
 
 func BenchmarkLabelDraw(b *testing.B) {
 	b.StopTimer()
-	label := NewLabel(geom.Coord{}, LabelConfig{"hello world", 12, color.Black})
+	label := NewLabel(geom.Coord{100, 100}, LabelConfig{"hello world", 12, color.Black})
 	ctx := draw2d.NewGraphicContext(image.NewRGBA(image.Rect(0, 0, 100, 100)))
 	b.StartTimer()
 
