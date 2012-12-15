@@ -18,7 +18,7 @@ package layouts
 
 import (
 	"github.com/skelterjohn/geom"
-	"github.com/skelterjohn/go.uik"
+	"github.com/Nightgunner5/go.uik"
 	"image/draw"
 	"math"
 )

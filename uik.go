@@ -19,6 +19,7 @@ package uik
 import (
 	"fmt"
 	"github.com/skelterjohn/go.wde"
+	_ "github.com/skelterjohn/go.wde/init"
 	"time"
 )
 

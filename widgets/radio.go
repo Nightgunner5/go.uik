@@ -19,8 +19,8 @@ package widgets
 import (
 	"code.google.com/p/draw2d/draw2d"
 	"github.com/skelterjohn/geom"
-	"github.com/skelterjohn/go.uik"
-	"github.com/skelterjohn/go.uik/layouts"
+	"github.com/Nightgunner5/go.uik"
+	"github.com/Nightgunner5/go.uik/layouts"
 	"github.com/skelterjohn/go.wde"
 	"image/color"
 )

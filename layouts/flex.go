@@ -17,7 +17,7 @@
 package layouts
 
 import (
-	"github.com/skelterjohn/go.uik"
+	"github.com/Nightgunner5/go.uik"
 	"math"
 )
 

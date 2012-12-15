@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/skelterjohn/geom"
-	"github.com/skelterjohn/go.uik"
-	"github.com/skelterjohn/go.uik/layouts"
-	"github.com/skelterjohn/go.uik/widgets"
+	"github.com/Nightgunner5/go.uik"
+	"github.com/Nightgunner5/go.uik/layouts"
+	"github.com/Nightgunner5/go.uik/widgets"
 	"github.com/skelterjohn/go.wde"
 	"image/color"
 	"strings"
