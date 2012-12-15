@@ -38,9 +38,11 @@ type Entry struct {
 	textOffset   float64
 	fd           draw2d.FontData
 	fontSize     float64
+	getText      chan []rune
+	setText      chan []rune
 }
 
-func NewEntry(size geom.Coord) (e *Entry) {
+func NewEntry(size geom.Coord, defaultText string) (e *Entry) {
 	e = new(Entry)
 	e.Size = size
 	e.Initialize()
@@ -48,8 +50,10 @@ func NewEntry(size geom.Coord) (e *Entry) {
 		uik.Report(e.ID, "entry")
 	}
 
-	e.text = []rune("hello world")
+	e.text = []rune(defaultText)
 	e.cursor = len(e.text)
+
+	e.getText, e.setText = make(chan []rune), make(chan []rune)
 
 	e.render()
 
@@ -219,7 +223,6 @@ func (e *Entry) handleEvents() {
 					e.Invalidate()
 				}
 			case uik.KeyTypedEvent:
-
 				// uik.Report("key", ev.Code, ev.Letter)
 				if ev.Glyph != "" {
 					start, end := e.cursor, e.cursor
@@ -282,6 +285,10 @@ func (e *Entry) handleEvents() {
 						if e.cursor < len(e.text) {
 							e.cursor++
 						}
+					case wde.KeyHome:
+						e.cursor = 0
+					case wde.KeyEnd:
+						e.cursor = len(e.text)
 					}
 				}
 				e.selecting = false
@@ -293,6 +300,20 @@ func (e *Entry) handleEvents() {
 			default:
 				e.HandleEvent(ev)
 			}
+		case text := <-e.setText:
+			e.text = text
+			if e.cursor > len(text) {
+				e.cursor = len(text)
+			}
+		case e.getText <- e.text:
 		}
 	}
+}
+
+func (e *Entry) Text() string {
+	return string(<-e.getText)
+}
+
+func (e *Entry) SetText(text string) {
+	e.setText <- []rune(text)
 }

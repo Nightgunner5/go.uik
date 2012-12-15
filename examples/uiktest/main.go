@@ -140,7 +140,7 @@ func uiktest() {
 		}
 	}()
 
-	e := widgets.NewEntry(geom.Coord{100, 30})
+	e := widgets.NewEntry(geom.Coord{100, 30}, "hello world")
 
 	_ = kg
 	_ = cb
